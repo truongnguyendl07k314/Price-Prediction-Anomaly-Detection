@@ -495,7 +495,7 @@ elif menu == "🛡️ Quản trị viên (Admin)":
             font_weight = 'bold' if str(val) == '100' else 'normal'
             return f'background-color: {color}; color: {font_color}; font-weight: {font_weight}'
 
-        styled_df = df_display.style.applymap(highlight_anomaly, subset=['Anomaly_Score'])
+        styled_df = df_display.style.map(highlight_anomaly, subset=['Anomaly_Score'])
         st.dataframe(styled_df, use_container_width=True)
         
         st.markdown("---")
