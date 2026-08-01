@@ -1,0 +1,17 @@
+﻿ID,Thời gian,Người đăng,Thương hiệu,Dòng xe,Giá mong muốn,Giá AI dự đoán,Z_Robust,S1_Residual_Z,S2_Price_Limit,S3_Confidence,S4_Unsupervised,Anomaly_Score,Loại_Bất_Thường,Trạng thái Duyệt,Phần_Trăm_Lệch,Giá_Min_Khuyên_Dùng,Giá_Max_Khuyên_Dùng
+POST_0001,2026-07-31 23:41,Bán xe máy cũ chính chủ,Yamaha,Acruzo,80000000,26998814,11.27,1,0,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0002,2026-07-31 23:41,Bán xe máy cũ chính chủ,Yamaha,Exciter,80000000,29115454,10.9,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0003,2026-07-31 23:42,Bán xe máy cũ chính chủ,Honda,Wave,30000000,12062858,7.06,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0004,2026-08-01 00:17,Bán xe máy cũ chính chủ,Yamaha,Exciter,75000000,26936618,10.29,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0005,2026-08-01 00:18,Bán xe máy cũ chính chủ,Yamaha,Exciter,75000000,27975842,10.07,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0006,2026-08-01 00:20,Bán xe máy cũ chính chủ,Yamaha,Exciter,75000000,27862706,10.1,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0007,2026-08-01 00:36,Bán xe máy cũ chính chủ,Yamaha,Exciter,75000000,32058342,8.84,1,1,1,1,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0008,2026-08-01 00:38,Bán xe máy cũ chính chủ,Honda,SH,150000000,81000642,5.04,1,0,1,1,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0009,2026-08-01 00:43,Bán xe máy cũ chính chủ,Honda,Air Blade,150000000,32921499,30.38,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0010,2026-08-01 00:44,Bán xe máy cũ chính chủ,Honda,SH Mode,150000000,46479240,23.88,1,1,1,1,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,,,
+POST_0011,2026-08-01 01:06,Bán xe máy cũ chính chủ,Honda,67,35000000,36388577,-0.1,0,0,0,0,0,Bình thường,Chờ duyệt ⏳,-3.8,32804168.0,39972986.0
+POST_0012,2026-08-01 08:25,Bán xe máy cũ chính chủ,Honda,67,35000000,36388577,-0.1,0,0,0,0,0,Bình thường,Chờ duyệt ⏳,-3.8,32804168.0,39972986.0
+POST_0013,2026-08-01 08:25,Bán xe máy cũ chính chủ,Honda,Air Blade,35000000,43987922,-2.35,0,0,0,0,0,Bình thường,Đã duyệt ✅,-20.4,40091576.0,47884267.0
+POST_0014,2026-08-01 08:28,Bán xe máy cũ chính chủ,Honda,Blade,35000000,16632431,8.56,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,110.4,14440372.0,18824490.0
+POST_0015,2026-08-01 08:29,Bán xe máy cũ chính chủ,Honda,Air Blade,35000000,43987922,-2.35,0,0,0,0,0,Bình thường,Chờ duyệt ⏳,-20.4,40091576.0,47884267.0
+POST_0016,2026-08-01 08:58,Bán xe máy cũ chính chủ,Yamaha,Exciter,80000000,28554268,10.6,1,1,1,0,100,Giá cao bất thường (Khả năng xe độ/sưu tầm),Chờ duyệt ⏳,180.2,24271127.0,33428564.0
