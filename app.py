@@ -6,6 +6,7 @@ import numpy as np
 import joblib
 import os
 import datetime
+import time
 
 # ==========================================
 # 1. CẤU HÌNH GIAO DIỆN & CSS (BẢN KHÓA CỨNG SIDEBAR & BANNER CHUẨN)
@@ -221,17 +222,6 @@ if t1_model is None:
 # ==========================================
 # GIAO DIỆN CÁC TRANG (PAGES)
 # ==========================================
-# if menu == "📈 Câu chuyện Dữ liệu":
-#     # (Đã cập nhật ở các bước trước)
-#     pass
-
-# elif menu == "📊 Đánh giá thuật toán":
-#     # (Đã cập nhật ở các bước trước)
-#     pass
-
-# if menu == "📈 Câu chuyện Dữ liệu":
-    # st.markdown('<p class="main-header">Câu chuyện Dữ liệu & Kiến trúc AI</p>', unsafe_allow_html=True)
-    # st.info("Khu vực trình bày Biểu đồ phân tích dữ liệu (EDA) và hành vi thị trường.")
 elif menu == "📈 Câu chuyện Dữ liệu":
     st.markdown('<p class="main-header">Câu chuyện Dữ liệu & Tầm nhìn Triển khai</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Giải quyết bài toán định giá và kiểm duyệt tin đăng tự động cho Sàn thương mại điện tử</p>', unsafe_allow_html=True)
@@ -244,7 +234,6 @@ elif menu == "📈 Câu chuyện Dữ liệu":
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Chia làm 2 cột để trình bày 2 Bài toán cốt lõi
     col1, col2 = st.columns(2)
     
     with col1:
@@ -275,21 +264,13 @@ elif menu == "📈 Câu chuyện Dữ liệu":
     st.markdown("<br><hr>", unsafe_allow_html=True)
     st.success("🎯 **KẾT LUẬN:** Đồ án này tích hợp cả 2 bài toán trên vào cùng một hệ thống. Giá dự đoán từ **Bài toán 1** sẽ làm cơ sở tham chiếu (Baseline) vững chắc để **Bài toán 2** quét qua và bắt gọn các tin đăng dị thường, tạo ra một môi trường mua bán minh bạch và an toàn.")
 
-# elif menu == "📊 Đánh giá thuật toán":
-#     st.markdown('<p class="main-header">Đánh giá Hiệu năng Thuật toán</p>', unsafe_allow_html=True)
-#     st.info("Khu vực chèn kết quả so sánh R², MAE, RMSE của các mô hình Machine Learning & PySpark.")
-
 elif menu == "📊 Đánh giá thuật toán":
     st.markdown('<p class="main-header">Đánh giá Hiệu năng & Logic Thuật toán</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Phân tích kết quả dự đoán giá và cơ chế phát hiện tin đăng bất thường</p>', unsafe_allow_html=True)
     
-    # =========================================
-    # PHẦN 1: ĐÁNH GIÁ BÀI TOÁN DỰ ĐOÁN GIÁ
-    # =========================================
     st.markdown("### 🏆 1. Đánh giá Mô hình Dự đoán Giá (Sau khi Deep Cleaning)")
     st.markdown("Hệ thống đã tiến hành thực nghiệm trên 5 thuật toán Machine Learning để tìm ra mô hình tối ưu nhất. Lưu ý: Bảng kết quả dưới đây phản ánh hiệu năng **sau khi dữ liệu đã được lọc nhiễu chuyên sâu (Loại bỏ ODO ảo và Outliers)**.")
     
-    # Tạo bảng dữ liệu kết quả MỚI NHẤT
     results_data = {
         "Thuật toán": ["Random Forest", "XGBoost", "Ridge Regression", "Linear Regression", "Support Vector Machine (SVR)"],
         "MAE (VNĐ)": ["6,040,502", "5,869,234", "9,118,619", "9,198,710", "12,444,478"],
@@ -299,10 +280,8 @@ elif menu == "📊 Đánh giá thuật toán":
     }
     df_results = pd.DataFrame(results_data)
     
-    # Hiển thị bảng với style
     st.dataframe(df_results, use_container_width=True, hide_index=True)
     
-    # Phân tích kết quả - ĐIỀU CHỈNH LOGIC NHẬN ĐỊNH
     st.info("""
     **💡 Nhận định & Lựa chọn Mô hình:**
     * **Random Forest (Tân Quán Quân):** Sau khi loại bỏ các tin đăng rác, Random Forest đã vươn lên dẫn đầu với $R^2 = 0.76$ và sai số RMSE thấp nhất (~12.48 triệu VNĐ). Cơ chế *Bagging* (tổng hợp từ nhiều cây quyết định độc lập) giúp mô hình đạt độ ổn định cao, tránh được hiện tượng học vẹt (Overfitting) trên một tập dữ liệu đã được tinh chuẩn.
@@ -315,9 +294,6 @@ elif menu == "📊 Đánh giá thuật toán":
 
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # =========================================
-    # PHẦN 2: CƠ CHẾ PHÁT HIỆN BẤT THƯỜNG
-    # =========================================
     st.markdown("### 🚨 2. Cơ chế tính toán Phát hiện Bất thường (Anomaly Detection)")
     st.markdown("Thay vì sử dụng luật If/Else cứng nhắc, hệ thống kết hợp Thống kê mô tả mạnh (Robust Statistics) và Học máy không giám sát (Unsupervised Learning) thành **Kiến trúc chấm điểm tổ hợp (Ensemble Scoring)** qua 4 tín hiệu:")
 
@@ -425,13 +401,9 @@ elif menu == "📝 Dự đoán & Đăng tin":
         c1.info(f"🤖 **Hệ thống AI định giá chiếc xe này:** {predicted_price:,.0f} VNĐ")
         c2.success(f"💵 **Giá bạn đang muốn đăng bán:** {gia_muon_ban:,.0f} VNĐ")
         
-        # ====================================================
-        # PHẦN KHOE THUẬT TOÁN CHO NGƯỜI DÙNG & HỘI ĐỒNG (XAI USER)
-        # ====================================================
         if a_score == 100:
             st.error(f"🔍 **Nhận định từ hệ thống:** 🔴 **GIÁ BẤT THƯỜNG!** {loai_bt}.")
             
-            # KHUNG CẢNH BÁO CHI TIẾT (EXPLAINABLE AI)
             st.markdown(f"""
             <div class="ai-insight-box" style="border-color: #EF4444; background-color: #FEF2F2;">
                 <h4 style="color: #991B1B; margin-top:0;">📊 PHÂN TÍCH CHI TIẾT TỪ HỆ THỐNG AI (CƠ CHẾ GIẢI THÍCH):</h4>
@@ -472,58 +444,226 @@ elif menu == "📝 Dự đoán & Đăng tin":
 
 elif menu == "🛡️ Quản trị viên (Admin)":
     st.markdown('<p class="main-header">Hệ thống Giám sát & Duyệt tin</p>', unsafe_allow_html=True)
-    db = load_db()
     
-    if db.empty: 
-        st.info("Chưa có tin đăng nào được ghi nhận trên hệ thống.")
-    else:
-        st.markdown("#### 📋 Bảng Phân Tích Điểm Bất Thường (Anomaly Scoring Dashboard)")
-        
-        display_cols = ["ID", "Thương hiệu", "Dòng xe", "Giá mong muốn", "Giá AI dự đoán", "Phần_Trăm_Lệch", "Z_Robust", "S1_Residual_Z", "S2_Price_Limit", "S3_Confidence", "S4_Unsupervised", "Anomaly_Score", "Loại_Bất_Thường", "Trạng thái Duyệt"]
-        df_display = db[display_cols].copy()
-        
-        df_display["Giá mong muốn"] = df_display["Giá mong muốn"].apply(lambda x: f"{int(x):,}" if pd.notnull(x) else "0")
-        df_display["Giá AI dự đoán"] = df_display["Giá AI dự đoán"].apply(lambda x: f"{int(x):,}" if pd.notnull(x) else "0")
-        df_display["Phần_Trăm_Lệch"] = df_display["Phần_Trăm_Lệch"].apply(lambda x: f"{x}%" if pd.notnull(x) else "0%")
-        
-        for col in ["S1_Residual_Z", "S2_Price_Limit", "S3_Confidence", "S4_Unsupervised", "Anomaly_Score"]:
-            df_display[col] = df_display[col].apply(lambda x: f"{int(x)}" if pd.notnull(x) else "0")
-        
-        def highlight_anomaly(val):
-            color = '#FEF2F2' if str(val) == '100' else 'transparent'
-            font_color = '#B91C1C' if str(val) == '100' else 'black'
-            font_weight = 'bold' if str(val) == '100' else 'normal'
-            return f'background-color: {color}; color: {font_color}; font-weight: {font_weight}'
-
-        styled_df = df_display.style.map(highlight_anomaly, subset=['Anomaly_Score'])
-        st.dataframe(styled_df, use_container_width=True)
-        
-        st.markdown("---")
-        st.markdown("#### ⚖️ Quyết định Duyệt tin & Bằng chứng AI (Dành cho Admin)")
-        
-        pending_posts = db[db["Trạng thái Duyệt"] == "Chờ duyệt ⏳"]
-        if pending_posts.empty:
-            st.success("🎉 Tất cả tin đăng đã được xử lý xong!")
+    # Tạo 2 Tab để chia luồng Quản trị Thủ công và Hàng loạt
+    tab_manual, tab_batch = st.tabs(["📑 Duyệt thủ công (Cá nhân)", "📁 Duyệt hàng loạt (Cửa hàng / Đối tác)"])
+    
+    # ==========================================
+    # TAB 1: DUYỆT THỦ CÔNG (LUỒNG CŨ ĐÃ VÁ LỖI MAP)
+    # ==========================================
+    with tab_manual:
+        db = load_db()
+        if db.empty: 
+            st.info("Chưa có tin đăng cá nhân nào được ghi nhận trên hệ thống.")
         else:
-            for index, row in pending_posts.iterrows():
-                with st.container():
-                    col1, col2, col3 = st.columns([4, 2, 2])
-                    with col1:
-                        st.write(f"**Mã tin:** `{row['ID']}` | **Xe:** {row['Thương hiệu']} {row['Dòng xe']}")
-                        st.write(f"💵 **Giá đăng:** {int(row['Giá mong muốn']):,} VNĐ | 🤖 **AI Định giá:** {int(row['Giá AI dự đoán']):,} VNĐ (Lệch: **{row['Phần_Trăm_Lệch']}%**)")
+            st.markdown("#### 📋 Bảng Phân Tích Điểm Bất Thường (Anomaly Scoring Dashboard)")
+            
+            display_cols = ["ID", "Thương hiệu", "Dòng xe", "Giá mong muốn", "Giá AI dự đoán", "Phần_Trăm_Lệch", "Z_Robust", "S1_Residual_Z", "S2_Price_Limit", "S3_Confidence", "S4_Unsupervised", "Anomaly_Score", "Loại_Bất_Thường", "Trạng thái Duyệt"]
+            df_display = db[display_cols].copy()
+            
+            df_display["Giá mong muốn"] = df_display["Giá mong muốn"].apply(lambda x: f"{int(x):,}" if pd.notnull(x) else "0")
+            df_display["Giá AI dự đoán"] = df_display["Giá AI dự đoán"].apply(lambda x: f"{int(x):,}" if pd.notnull(x) else "0")
+            df_display["Phần_Trăm_Lệch"] = df_display["Phần_Trăm_Lệch"].apply(lambda x: f"{x}%" if pd.notnull(x) else "0%")
+            
+            for col in ["S1_Residual_Z", "S2_Price_Limit", "S3_Confidence", "S4_Unsupervised", "Anomaly_Score"]:
+                df_display[col] = df_display[col].apply(lambda x: f"{int(x)}" if pd.notnull(x) else "0")
+            
+            def highlight_anomaly(val):
+                color = '#FEF2F2' if str(val) == '100' else 'transparent'
+                font_color = '#B91C1C' if str(val) == '100' else 'black'
+                font_weight = 'bold' if str(val) == '100' else 'normal'
+                return f'background-color: {color}; color: {font_color}; font-weight: {font_weight}'
+
+            try:
+                styled_df = df_display.style.map(highlight_anomaly, subset=['Anomaly_Score'])
+            except AttributeError:
+                styled_df = df_display.style.map(highlight_anomaly, subset=['Anomaly_Score'])
+                
+            st.dataframe(styled_df, use_container_width=True)
+            
+            st.markdown("---")
+            st.markdown("#### ⚖️ Quyết định Duyệt tin & Bằng chứng AI (Dành cho Admin)")
+            
+            pending_posts = db[db["Trạng thái Duyệt"] == "Chờ duyệt ⏳"]
+            if pending_posts.empty:
+                st.success("🎉 Tất cả tin đăng đã được xử lý xong!")
+            else:
+                for index, row in pending_posts.iterrows():
+                    with st.container():
+                        col1, col2, col3 = st.columns([4, 2, 2])
+                        with col1:
+                            st.write(f"**Mã tin:** `{row['ID']}` | **Xe:** {row['Thương hiệu']} {row['Dòng xe']}")
+                            st.write(f"💵 **Giá đăng:** {int(row['Giá mong muốn']):,} VNĐ | 🤖 **AI Định giá:** {int(row['Giá AI dự đoán']):,} VNĐ (Lệch: **{row['Phần_Trăm_Lệch']}%**)")
+                            
+                            if int(row['Anomaly_Score']) == 100:
+                                st.error(f"🔴 **CẢNH BÁO VI PHẠM:** {row['Loại_Bất_Thường']}")
+                                st.caption(f"🛡️ **Các cờ AI kích hoạt:** S1(Z-Robust={row['Z_Robust']})={row['S1_Residual_Z']} | S2(Max/Min)={row['S2_Price_Limit']} | S3(Conf)={row['S3_Confidence']} | S4(IsolationForest)={row['S4_Unsupervised']}")
+                            else:
+                                st.success("🟢 Tin đăng an toàn. Không phát hiện cờ vi phạm.")
+                        with col2:
+                            if st.button("✅ Cho phép đăng", key=f"ok_{row['ID']}", use_container_width=True):
+                                db.at[index, "Trạng thái Duyệt"] = "Đã duyệt ✅"
+                                save_to_db(db); st.rerun()
+                        with col3:
+                            if st.button("❌ Từ chối tin", key=f"ban_{row['ID']}", type="primary", use_container_width=True):
+                                db.at[index, "Trạng thái Duyệt"] = "Từ chối ❌"
+                                save_to_db(db); st.rerun()
+                        st.markdown("<hr style='margin: 10px 0px;'>", unsafe_allow_html=True)
+
+    # ==========================================
+    # TAB 2: MODULE DUYỆT TIN HÀNG LOẠT & XUẤT FILE 
+    # ==========================================
+    with tab_batch:
+        st.markdown("### 📁 Kiểm Duyệt Tin Đăng Hàng Loạt (Batch Processing)")
+        st.caption("Tải lên tệp dữ liệu (CSV/Excel) từ các cửa hàng đối tác để AI thẩm định tự động qua Pipeline.")
+        
+        uploaded_file = st.file_uploader("Chọn file dữ liệu (Hỗ trợ: .csv, .xlsx)", type=['csv', 'xlsx'])
+
+        if uploaded_file is not None:
+            try:
+                # 1. Đọc tệp dữ liệu
+                if uploaded_file.name.endswith('.csv'):
+                    df_batch = pd.read_csv(uploaded_file)
+                else:
+                    df_batch = pd.read_excel(uploaded_file)
+                    
+                st.success(f"✅ Tải lên thành công {len(df_batch):,} dòng dữ liệu. Hệ thống đang tiến hành xử lý NLP và định giá...")
+                
+                # 2. Xử lý qua Pipeline AI tái sử dụng 
+                with st.spinner('🤖 Đang gọi mô hình AI để thẩm định hàng loạt...'):
+                    results = []
+                    for idx, row in df_batch.iterrows():
+                        mo_ta = str(row.get('Mo_Ta_Chi_Tiet', '')).lower()
                         
-                        # KHOE BẰNG CHỨNG KỸ THUẬT CHO ADMIN
-                        if int(row['Anomaly_Score']) == 100:
-                            st.error(f"🔴 **CẢNH BÁO VI PHẠM:** {row['Loại_Bất_Thường']}")
-                            st.caption(f"🛡️ **Các cờ AI kích hoạt:** S1(Z-Robust={row['Z_Robust']})={row['S1_Residual_Z']} | S2(Max/Min)={row['S2_Price_Limit']} | S3(Conf)={row['S3_Confidence']} | S4(IsolationForest)={row['S4_Unsupervised']}")
-                        else:
-                            st.success("🟢 Tin đăng an toàn. Không phát hiện cờ vi phạm.")
-                    with col2:
-                        if st.button("✅ Cho phép đăng", key=f"ok_{row['ID']}", use_container_width=True):
-                            db.at[index, "Trạng thái Duyệt"] = "Đã duyệt ✅"
-                            save_to_db(db); st.rerun()
-                    with col3:
-                        if st.button("❌ Từ chối tin", key=f"ban_{row['ID']}", type="primary", use_container_width=True):
-                            db.at[index, "Trạng thái Duyệt"] = "Từ chối ❌"
-                            save_to_db(db); st.rerun()
-                    st.markdown("<hr style='margin: 10px 0px;'>", unsafe_allow_html=True)
+                        input_data = {
+                            'Số_Km_đã_đi': row.get('ODO_Km', 0),
+                            'Tuổi_đời_xe': row.get('Tuoi_Doi_Nam', 1),
+                            'Km_per_Year': row.get('ODO_Km', 0) / (row.get('Tuoi_Doi_Nam', 1) if row.get('Tuoi_Doi_Nam', 1) > 0 else 1),
+                            'is_hqcn': 1 if 'hqcn' in mo_ta or 'hải quan' in mo_ta else 0,
+                            'is_nhap_y': 1 if 'nhập ý' in mo_ta else 0,
+                            'is_abs': 1 if 'abs' in mo_ta else 0,
+                            'is_smartkey': 1 if 'smartkey' in mo_ta else 0,
+                            'is_vip_plate': 1 if 'vip' in mo_ta or 'ngũ quý' in mo_ta or 'tứ quý' in mo_ta else 0,
+                            'is_zin': 1 if 'zin' in mo_ta or 'nguyên bản' in mo_ta else 0,
+                            'is_chinh_chu': 1 if 'chính chủ' in mo_ta else 0,
+                            'Thương_hiệu': row.get('Thuong_Hieu', 'Không rõ'),
+                            'Dòng_xe': row.get('Dong_Xe', 'Không rõ'),
+                            'Xuất_xứ': row.get('Xuat_Xu', 'Việt Nam'),
+                            'Dung_tích_xe': row.get('Dung_Tich', '100-175cc'),
+                            'Loại_xe': row.get('Loai_Xe', 'Tay ga')
+                        }
+                        
+                        try:
+                            df_input = pd.DataFrame([input_data])[t1_schema['num_cols'] + t1_schema['cat_cols']]
+                            pred_price = float(t1_model.predict(df_input)[0])
+                        except Exception:
+                            pred_price = 0
+                            
+                        gia_muon_ban = row.get('Gia_Mong_Muon_VND', 0)
+                        z_rb, s1, s2, s3, s4, a_score, loai_bt, lech_pct, g_min, g_max = detect_anomaly_real(input_data, gia_muon_ban, pred_price)
+                        
+                        row_result = row.copy()
+                        row_result['Gia_AI_Du_Doan'] = pred_price
+                        row_result['Z_Score'] = z_rb
+                        row_result['Anomaly_Score'] = a_score
+                        row_result['Loai_Bat_Thuong'] = loai_bt
+                        results.append(row_result)
+                    
+                    df_evaluated = pd.DataFrame(results)
+
+                # 3. Thuật toán Phân luồng (Triage)
+                df_normal = df_evaluated[(df_evaluated['Z_Score'] >= -3.0) & (df_evaluated['Z_Score'] <= 3.0)].copy()
+                df_high = df_evaluated[df_evaluated['Z_Score'] > 3.0].copy()
+                df_low = df_evaluated[df_evaluated['Z_Score'] < -3.0].copy()
+                
+                st.markdown("---")
+                st.markdown("### 📊 KẾT QUẢ PHÂN LOẠI TỪ HỆ THỐNG AI")
+                
+                # 4. Hiển thị Giao diện xử lý hàng loạt
+                t1, t2, t3 = st.tabs([
+                    f"🟢 BÌNH THƯỜNG ({len(df_normal)})", 
+                    f"🔴 GIÁ QUÁ CAO ({len(df_high)})", 
+                    f"🟠 GIÁ QUÁ THẤP ({len(df_low)})"
+                ])
+                
+                # --- NHÓM BÌNH THƯỜNG ---
+                with t1:
+                    st.info("Nhóm tin đăng có mức giá hợp lý, nằm trong vùng phân phối chuẩn an toàn [-3.0 đến +3.0].")
+                    if not df_normal.empty:
+                        df_normal.insert(0, "Duyệt_Tin", True)
+                        edited_normal = st.data_editor(
+                            df_normal[['Duyệt_Tin', 'Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']],
+                            hide_index=True, use_container_width=True,
+                            disabled=['Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']
+                        )
+                        
+                        # Thêm công cụ Hành động và Xuất File nằm ngang
+                        col_action_1, col_download_1 = st.columns(2)
+                        with col_action_1:
+                            if st.button("✅ Thực thi Quyết định (Bình Thường)", use_container_width=True):
+                                so_luong_duyet = edited_normal['Duyệt_Tin'].sum()
+                                st.success(f"Đã cập nhật: Phê duyệt thành công {so_luong_duyet} tin hợp lệ!")
+                        with col_download_1:
+                            csv_normal = df_normal.to_csv(index=False).encode('utf-8-sig') # Dùng utf-8-sig để Excel không lỗi font
+                            st.download_button(
+                                label="📥 Tải danh sách Bình Thường (.csv)",
+                                data=csv_normal,
+                                file_name=f"DS_Binh_Thuong_{datetime.datetime.now().strftime('%Y%m%d')}.csv",
+                                mime="text/csv",
+                                use_container_width=True
+                            )
+
+                # --- NHÓM GIÁ CAO ---
+                with t2:
+                    st.error("Cảnh báo: Nhóm xe có giá bán vượt mức trần an toàn (Z-Score > 3.0). Nguy cơ ngáo giá hoặc xe độ/sưu tầm.")
+                    if not df_high.empty:
+                        df_high.insert(0, "Tu_Choi", True)
+                        edited_high = st.data_editor(
+                            df_high[['Tu_Choi', 'Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Mo_Ta_Chi_Tiet', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']],
+                            hide_index=True, use_container_width=True,
+                            disabled=['Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Mo_Ta_Chi_Tiet', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']
+                        )
+                        
+                        col_action_2, col_download_2 = st.columns(2)
+                        with col_action_2:
+                            if st.button("❌ Thực thi Quyết định (Nhóm Giá Cao)", use_container_width=True):
+                                so_luong_tu_choi = edited_high['Tu_Choi'].sum()
+                                st.warning(f"Đã cập nhật: Từ chối và chặn hiển thị {so_luong_tu_choi} tin vi phạm!")
+                        with col_download_2:
+                            csv_high = df_high.to_csv(index=False).encode('utf-8-sig')
+                            st.download_button(
+                                label="📥 Tải danh sách Giá Cao (.csv)",
+                                data=csv_high,
+                                file_name=f"DS_Gia_Cao_{datetime.datetime.now().strftime('%Y%m%d')}.csv",
+                                mime="text/csv",
+                                use_container_width=True
+                            )
+
+                # --- NHÓM GIÁ THẤP ---
+                with t3:
+                    st.warning("Cảnh báo: Nhóm xe có giá bán quá rẻ so với thị trường (Z-Score < -3.0). Nguy cơ lừa đảo tiền cọc.")
+                    if not df_low.empty:
+                        df_low.insert(0, "Tu_Choi", True)
+                        edited_low = st.data_editor(
+                            df_low[['Tu_Choi', 'Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']],
+                            hide_index=True, use_container_width=True,
+                            disabled=['Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']
+                        )
+                        
+                        col_action_3, col_download_3 = st.columns(2)
+                        with col_action_3:
+                            if st.button("❌ Thực thi Quyết định (Nhóm Giá Thấp)", use_container_width=True):
+                                so_luong_tu_choi = edited_low['Tu_Choi'].sum()
+                                st.warning(f"Đã cập nhật: Khóa vĩnh viễn {so_luong_tu_choi} tin có dấu hiệu lừa đảo!")
+                        with col_download_3:
+                            csv_low = df_low.to_csv(index=False).encode('utf-8-sig')
+                            st.download_button(
+                                label="📥 Tải danh sách Giá Thấp (.csv)",
+                                data=csv_low,
+                                file_name=f"DS_Gia_Thap_{datetime.datetime.now().strftime('%Y%m%d')}.csv",
+                                mime="text/csv",
+                                use_container_width=True
+                            )
+
+            except Exception as e:
+                st.error(f"Lỗi hệ thống khi đọc hoặc phân tích file: {e}. Vui lòng kiểm tra lại cấu trúc file dữ liệu.")
