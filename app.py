@@ -222,7 +222,7 @@ if t1_model is None:
 # ==========================================
 # GIAO DIỆN CÁC TRANG (PAGES)
 # ==========================================
-elif menu == "📈 Câu chuyện Dữ liệu":
+if menu == "📈 Câu chuyện Dữ liệu":
     st.markdown('<p class="main-header">Câu chuyện Dữ liệu & Tầm nhìn Triển khai</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Giải quyết bài toán định giá và kiểm duyệt tin đăng tự động cho Sàn thương mại điện tử</p>', unsafe_allow_html=True)
     
@@ -449,7 +449,7 @@ elif menu == "🛡️ Quản trị viên (Admin)":
     tab_manual, tab_batch = st.tabs(["📑 Duyệt thủ công (Cá nhân)", "📁 Duyệt hàng loạt (Cửa hàng / Đối tác)"])
     
     # ==========================================
-    # TAB 1: DUYỆT THỦ CÔNG (LUỒNG CŨ ĐÃ VÁ LỖI MAP)
+    # TAB 1: DUYỆT THỦ CÔNG (CÁ NHÂN)
     # ==========================================
     with tab_manual:
         db = load_db()
@@ -474,6 +474,7 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                 font_weight = 'bold' if str(val) == '100' else 'normal'
                 return f'background-color: {color}; color: {font_color}; font-weight: {font_weight}'
 
+            # Xử lý tương thích phiên bản Pandas cũ/mới
             try:
                 styled_df = df_display.style.map(highlight_anomaly, subset=['Anomaly_Score'])
             except AttributeError:
@@ -511,13 +512,37 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                         st.markdown("<hr style='margin: 10px 0px;'>", unsafe_allow_html=True)
 
     # ==========================================
-    # TAB 2: MODULE DUYỆT TIN HÀNG LOẠT & XUẤT FILE 
+    # TAB 2: DUYỆT TIN HÀNG LOẠT (CÓ TEMPLATE & EXPORT)
     # ==========================================
     with tab_batch:
         st.markdown("### 📁 Kiểm Duyệt Tin Đăng Hàng Loạt (Batch Processing)")
         st.caption("Tải lên tệp dữ liệu (CSV/Excel) từ các cửa hàng đối tác để AI thẩm định tự động qua Pipeline.")
         
-        uploaded_file = st.file_uploader("Chọn file dữ liệu (Hỗ trợ: .csv, .xlsx)", type=['csv', 'xlsx'])
+        # Tạo dữ liệu mẫu gốc 5 dòng (Nhân bản thành 50 dòng)
+        base_data = [
+            {"Ma_Tin": "BATCH_001", "Thuong_Hieu": "Honda", "Dong_Xe": "Air Blade", "Loai_Xe": "Tay ga", "Dung_Tich": "100-175cc", "Xuat_Xu": "Việt Nam", "Tuoi_Doi_Nam": 2, "ODO_Km": 15000, "Mo_Ta_Chi_Tiet": "Xe zin nguyên bản, chính chủ", "Gia_Mong_Muon_VND": 35000000},
+            {"Ma_Tin": "BATCH_002", "Thuong_Hieu": "Yamaha", "Dong_Xe": "Exciter", "Loai_Xe": "Côn tay", "Dung_Tich": "100-175cc", "Xuat_Xu": "Việt Nam", "Tuoi_Doi_Nam": 1, "ODO_Km": 8000, "Mo_Ta_Chi_Tiet": "Có ABS an toàn", "Gia_Mong_Muon_VND": 42000000},
+            {"Ma_Tin": "BATCH_003", "Thuong_Hieu": "Honda", "Dong_Xe": "SH", "Loai_Xe": "Tay ga", "Dung_Tich": "100-175cc", "Xuat_Xu": "Nhập khẩu", "Tuoi_Doi_Nam": 1, "ODO_Km": 5000, "Mo_Ta_Chi_Tiet": "SH Nhập Ý, biển số VIP ngũ quý", "Gia_Mong_Muon_VND": 850000000},
+            {"Ma_Tin": "BATCH_004", "Thuong_Hieu": "Piaggio", "Dong_Xe": "Vespa", "Loai_Xe": "Tay ga", "Dung_Tich": "100-175cc", "Xuat_Xu": "Việt Nam", "Tuoi_Doi_Nam": 1, "ODO_Km": 2000, "Mo_Ta_Chi_Tiet": "Kẹt tiền thanh lý gấp", "Gia_Mong_Muon_VND": 5000000},
+            {"Ma_Tin": "BATCH_005", "Thuong_Hieu": "Honda", "Dong_Xe": "Wave", "Loai_Xe": "Xe số", "Dung_Tich": "50-100cc", "Xuat_Xu": "Việt Nam", "Tuoi_Doi_Nam": 5, "ODO_Km": 40000, "Mo_Ta_Chi_Tiet": "Xe đi cày, máy êm", "Gia_Mong_Muon_VND": 15000000}
+        ]
+        
+        # Sinh file 50 dòng in-memory
+        demo_data = pd.DataFrame(base_data * 10)
+        demo_data['Ma_Tin'] = [f"BATCH_{i+1:03d}" for i in range(50)]
+        
+        # Nút tải file mẫu
+        csv_demo = demo_data.to_csv(index=False).encode('utf-8-sig')
+        st.download_button(
+            label="📄 Tải File Dữ Liệu Mẫu (Template 50 dòng)",
+            data=csv_demo,
+            file_name="Template_Kiem_Duyet_50.csv",
+            mime="text/csv",
+            type="secondary"
+        )
+        st.markdown("---")
+        
+        uploaded_file = st.file_uploader("Chọn file dữ liệu cần thẩm định (Hỗ trợ: .csv, .xlsx)", type=['csv', 'xlsx'])
 
         if uploaded_file is not None:
             try:
@@ -529,7 +554,7 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                     
                 st.success(f"✅ Tải lên thành công {len(df_batch):,} dòng dữ liệu. Hệ thống đang tiến hành xử lý NLP và định giá...")
                 
-                # 2. Xử lý qua Pipeline AI tái sử dụng 
+                # 2. Xử lý qua Pipeline AI
                 with st.spinner('🤖 Đang gọi mô hình AI để thẩm định hàng loạt...'):
                     results = []
                     for idx, row in df_batch.iterrows():
@@ -571,7 +596,7 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                     
                     df_evaluated = pd.DataFrame(results)
 
-                # 3. Thuật toán Phân luồng (Triage)
+                # 3. Thuật toán Phân luồng
                 df_normal = df_evaluated[(df_evaluated['Z_Score'] >= -3.0) & (df_evaluated['Z_Score'] <= 3.0)].copy()
                 df_high = df_evaluated[df_evaluated['Z_Score'] > 3.0].copy()
                 df_low = df_evaluated[df_evaluated['Z_Score'] < -3.0].copy()
@@ -579,7 +604,6 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                 st.markdown("---")
                 st.markdown("### 📊 KẾT QUẢ PHÂN LOẠI TỪ HỆ THỐNG AI")
                 
-                # 4. Hiển thị Giao diện xử lý hàng loạt
                 t1, t2, t3 = st.tabs([
                     f"🟢 BÌNH THƯỜNG ({len(df_normal)})", 
                     f"🔴 GIÁ QUÁ CAO ({len(df_high)})", 
@@ -597,14 +621,13 @@ elif menu == "🛡️ Quản trị viên (Admin)":
                             disabled=['Ma_Tin', 'Thuong_Hieu', 'Dong_Xe', 'Gia_Mong_Muon_VND', 'Gia_AI_Du_Doan', 'Z_Score']
                         )
                         
-                        # Thêm công cụ Hành động và Xuất File nằm ngang
                         col_action_1, col_download_1 = st.columns(2)
                         with col_action_1:
                             if st.button("✅ Thực thi Quyết định (Bình Thường)", use_container_width=True):
                                 so_luong_duyet = edited_normal['Duyệt_Tin'].sum()
                                 st.success(f"Đã cập nhật: Phê duyệt thành công {so_luong_duyet} tin hợp lệ!")
                         with col_download_1:
-                            csv_normal = df_normal.to_csv(index=False).encode('utf-8-sig') # Dùng utf-8-sig để Excel không lỗi font
+                            csv_normal = df_normal.to_csv(index=False).encode('utf-8-sig')
                             st.download_button(
                                 label="📥 Tải danh sách Bình Thường (.csv)",
                                 data=csv_normal,
