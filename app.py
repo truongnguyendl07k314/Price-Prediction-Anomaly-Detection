@@ -32,7 +32,7 @@ st.markdown("""
     /* 4. Top Banner Cố định (Tăng height lên 145px) */
     .top-banner {
         position: fixed; top: 0; left: 0; width: 100%; height: 145px;
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+        background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
                     url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop') center/cover;
         color: white; z-index: 99999; text-align: center;
         display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -83,8 +83,8 @@ st.markdown("""
     
     <div class="top-banner">
         <div class="banner-school">TRUNG TÂM TIN HỌC - ĐẠI HỌC KHOA HỌC TỰ NHIÊN TPHCM</div>
-        <div class="banner-title">ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE</div>
-        <div class="banner-subtitle">Price Prediction & Anomaly Detection</div>
+        <div class="banner-title">Price Prediction & Anomaly Detection</div>
+        <div class="banner-subtitle">ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE</div>
     </div>
     """, unsafe_allow_html=True)
 
